@@ -8,17 +8,12 @@
 
 ## Usage
 
-GIVEN a weather dashboard with form inputs
-WHEN I search for a city
-THEN I am presented with current and future conditions for that city and that city is added to the search history
-WHEN I view current weather conditions for that city
-THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-WHEN I view the UV index
-THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-WHEN I view future weather conditions for that city
-THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
-WHEN I click on a city in the search history
-THEN I am again presented with current and future conditions for that city
+Looking to  head out of town?  Check the weather before you leave to ensure you're not rained out! (Unless you prefer the rain :wink: )  To use:  simply enter a city in the search bar and you will see the current and future conditions for that city!  You will see the city name, date and an icon representation of the conditions/temperature/humidity/wind speed/ and UV index.  When you select the UV index, you will see a color that indicates if the conditions are moderate, favorable, or severe. 
+
+When looking at future weather conditions, you will see a 5-day forecast that displays the date (along with the icon representation of weather conditions, temp, wind speed, and humidity.) 
+
+There will also be a list of cities you've searched in the past, when you click on the recently searched cities, you will be able to click into them to view the forecasted weather conditions again.  
+
 
 Click this [LINK](https://kstensing.github.io/weather.dashboard/) for the landing page.
 
