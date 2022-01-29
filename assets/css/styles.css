@@ -1,3 +1,9 @@
-button {
-    
+
+h1 {
+    background: linear-gradient(to right, #3B6DC3, #303B8C,#230656);
+    color: white;
+}
+
+form label {
+    font-size: 25px;
 }
