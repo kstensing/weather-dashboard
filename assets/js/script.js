@@ -29,7 +29,7 @@
 
 var getCity = function(city) {
     // format the api url
-    var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=7639c4b1dc8d0eed150771de25344bd2";
+    var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=Default";
 
     // make a request to the url
     fetch(requestUrl)
