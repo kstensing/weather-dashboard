@@ -7,3 +7,9 @@ h1 {
 form label {
     font-size: 25px;
 }
+
+.day {
+    background-color: #33475A;
+    color: white;
+    font-size: 10px;
+}
