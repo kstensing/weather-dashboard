@@ -1,7 +1,9 @@
 var cityFormEl = document.querySelector("#city-form");
 var cityInputEl = document.querySelector("#city");
 var currentContainerEl = document.querySelector("#current-conditions-container");
-var currentCity = document.querySelector("#current-city-weather")
+var currentCity = document.querySelector("#current-city-weather");
+var forecastContainerEl = document.querySelector("#forecast-container");
+var forecast = document.querySelector("#forecast");
 var currentDay = moment().format(' (MM/DD/YYYY)');
 
 var formSubmitHandler = function(event) {
@@ -25,20 +27,14 @@ var getCity = function(city) {
     .then(function(response) {
         response.json().then(function(data) {
             displayCity(data, city);
-            displayForecast(data, city);
+            displayForecast(data);
         });
     });
 };
 
 var displayCity = function(cityInfo, searchTerm) {
-    console.log(cityInfo);
-    console.log(searchTerm);
-
     currentContainerEl.textContent = "";
     currentCity.textContent = cityInfo.name + currentDay;
-
-    
-
 
         var conditionEl = document.createElement("span");
         conditionEl.classList = "list-group";
@@ -87,6 +83,38 @@ var displayCity = function(cityInfo, searchTerm) {
 };
 
 
+
+var displayForecast = function(cityInfo) {
+
+    forecastContainerEl.textContent = "";
+    for (var i = 1; i < 6; i++) {
+
+        var forecastDay = document.querySelector("[data-day='"+i+"']");
+        var conditionEl = document.createElement("p");
+        conditionEl.classList = "list-group";
+        conditionEl.textContent = cityInfo.weather[0].icon;
+    
+        var cityWeather = "Temp: " + cityInfo.main.temp +"°F";
+        var tempEl = document.createElement("p");
+        tempEl.textContent = cityWeather;
+        conditionEl.appendChild(tempEl);
+    
+        var cityWeatherWind = "Wind: " + cityInfo.wind.speed +" MPH";
+        var windEl = document.createElement("p");
+        windEl.textContent = cityWeatherWind;
+        conditionEl.appendChild(windEl);
+    
+        var cityWeatherHumidity = "Humidity: " + cityInfo.main.humidity + "%";
+        var humidityEl = document.createElement("p");
+        humidityEl.textContent = cityWeatherHumidity;
+        conditionEl.appendChild(humidityEl);
+        
+        forecastDay.appendChild(conditionEl);
+        
+    };
+    
+    
+};
 
 cityFormEl.addEventListener("submit", formSubmitHandler);
 
