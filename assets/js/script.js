@@ -27,7 +27,7 @@ var getCity = function(city) {
     .then(function(response) {
         response.json().then(function(data) {
             displayCity(data, city);
-            displayForecast(data);
+            displayForecast(data, city);
         });
     });
 };
@@ -84,7 +84,7 @@ var displayCity = function(cityInfo, searchTerm) {
 
 
 
-var displayForecast = function(cityInfo) {
+var displayForecast = function(cityInfo, city) {
 
     forecastContainerEl.textContent = "";
     for (var i = 1; i < 6; i++) {
