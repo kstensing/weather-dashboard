@@ -13,3 +13,23 @@ form label {
     color: white;
     font-size: 10px;
 }
+
+.low {
+    background-color: green;
+    color: white;
+}
+
+.moderate {
+    background-color: yellow;
+    color: white;
+}
+
+.high {
+    background-color: orange;
+    color: white;
+}
+
+.veryHigh {
+    background-color: red;
+    color: white;
+}

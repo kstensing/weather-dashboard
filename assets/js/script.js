@@ -18,9 +18,7 @@ var formSubmitHandler = function(event) {
    
 };
 
-var getIcon = function(city) {
 
-}
 
 var getCity = function(city) {
     // format the api url
@@ -31,7 +29,6 @@ var getCity = function(city) {
     .then(function(response) {
         response.json().then(function(data) {
             displayCity(data, city);
-            displayIcon(data);
         });
     });
 };
@@ -50,11 +47,42 @@ var displayCity = function(cityInfo, searchTerm) {
         var conditionEl = document.createElement("span");
         conditionEl.classList = "list-group";
         conditionEl.textContent = cityInfo.weather[0].icon;
-        
-        var cityWeather = "Temp: " + cityInfo.main.temp;
+
+        var cityWeather = "Temp: " + cityInfo.main.temp +"°F";
         var tempEl = document.createElement("p");
         tempEl.textContent = cityWeather;
         conditionEl.appendChild(tempEl);
+
+        var cityWeatherWind = "Wind: " + cityInfo.wind.speed +" MPH";
+        var windEl = document.createElement("p");
+        windEl.textContent = cityWeatherWind;
+        conditionEl.appendChild(windEl);
+
+        var cityWeatherHumidity = "Humidity: " + cityInfo.main.humidity + "%";
+        var humidityEl = document.createElement("p");
+        humidityEl.textContent = cityWeatherHumidity;
+        conditionEl.appendChild(humidityEl);
+
+        var uvUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityInfo.coord.lat + "&lon=" + cityInfo.coord.lon + "&appid=55b53b07c2e560aae2f3aeb2fb43fe2f";
+            fetch(uvUrl)
+             .then(function(response) {
+                 response.json().then(function(data) {
+                    var uvEl = document.createElement("div");
+                    
+                    uvEl.textContent = "UV Index: " + data.current.uvi;
+                    conditionEl.appendChild(uvEl);
+
+                    if (data.current.uvi <= 2) {
+                        uvEl.classList = "badge low";
+                    } else if (data.current.uvi > 2 && data.current.uvi < 6) {
+                        uvEl.classList = "moderate";
+                    } else if (data.current.uvi > 5 && data.current.uvi < 8) {
+                        uvEl.classList = "high";
+                    } else if (data.current.uvi >= 8) {
+                        uvEl.classList = "veryHigh";
+                    };
+             });
+            });
 
         currentContainerEl.appendChild(conditionEl);
     
