@@ -2,8 +2,7 @@ var cityFormEl = document.querySelector("#city-form");
 var cityInputEl = document.querySelector("#city");
 var currentContainerEl = document.querySelector("#current-conditions-container");
 var currentCity = document.querySelector("#current-city-weather")
-var currentDay = moment().format('MMMM Do YYYY');
-
+var currentDay = moment().format(' (MM/DD/YYYY)');
 
 var formSubmitHandler = function(event) {
     event.preventDefault();
@@ -15,10 +14,7 @@ var formSubmitHandler = function(event) {
     } else {
         alert("Please enter a valid city");
     }
-   
 };
-
-
 
 var getCity = function(city) {
     // format the api url
@@ -29,21 +25,21 @@ var getCity = function(city) {
     .then(function(response) {
         response.json().then(function(data) {
             displayCity(data, city);
+            displayForecast(data, city);
         });
     });
 };
-
-
 
 var displayCity = function(cityInfo, searchTerm) {
     console.log(cityInfo);
     console.log(searchTerm);
 
     currentContainerEl.textContent = "";
-    currentCity.textContent = cityInfo.name;
+    currentCity.textContent = cityInfo.name + currentDay;
+
+    
 
 
-        
         var conditionEl = document.createElement("span");
         conditionEl.classList = "list-group";
         conditionEl.textContent = cityInfo.weather[0].icon;
@@ -68,31 +64,29 @@ var displayCity = function(cityInfo, searchTerm) {
              .then(function(response) {
                  response.json().then(function(data) {
                     var uvEl = document.createElement("div");
-                    
-                    uvEl.textContent = "UV Index: " + data.current.uvi;
-                    conditionEl.appendChild(uvEl);
+                    var titleUvEl = document.createElement("p");
+                    titleUvEl.textContent = "UV Index: "
+                    titleUvEl.appendChild(uvEl)
+                
+                    uvEl.textContent = data.current.uvi;
 
                     if (data.current.uvi <= 2) {
                         uvEl.classList = "badge low";
                     } else if (data.current.uvi > 2 && data.current.uvi < 6) {
-                        uvEl.classList = "moderate";
+                        uvEl.classList = "badge moderate";
                     } else if (data.current.uvi > 5 && data.current.uvi < 8) {
-                        uvEl.classList = "high";
+                        uvEl.classList = "badge high";
                     } else if (data.current.uvi >= 8) {
-                        uvEl.classList = "veryHigh";
+                        uvEl.classList = "badge veryHigh";
                     };
+
+                    conditionEl.appendChild(titleUvEl);
              });
             });
-
         currentContainerEl.appendChild(conditionEl);
-    
 };
+
+
 
 cityFormEl.addEventListener("submit", formSubmitHandler);
 
-// current.temp
-// current.dt
-// current.humidity
-// current.uvi
-// current.wind_speed
-// current.weather.icon
