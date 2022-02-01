@@ -26,7 +26,7 @@ var getCity = function (city) {
     fetch(requestUrl)
         .then(function (response) {
             response.json().then(function (data) {
-                console.log("first data: ", data);                
+                console.log("first data: ", data);
                 displayCity(data, city);
                 displayForecast(data, city);
             });
@@ -36,7 +36,7 @@ var getCity = function (city) {
 var displayCity = function (cityInfo, searchTerm) {
     currentContainerEl.textContent = "";
     currentCity.textContent = cityInfo.name + currentDay;
-
+    
     var conditionEl = document.createElement("span");
     conditionEl.classList = "list-group";
     conditionEl.textContent = "http://openweathermap.org/img/wn/" + cityInfo.weather[0].icon + ".png";
@@ -89,51 +89,67 @@ var displayForecast = function (cityInfo, city) {
 
     forecastContainerEl.textContent = "";
 
-    var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + cityInfo.coord.lat + "&lon=" + cityInfo.coord.lon + "&appid=55b53b07c2e560aae2f3aeb2fb43fe2f";
-    console.log("forecast Url: ",forecastUrl)
+    var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + cityInfo.coord.lat + "&lon=" + cityInfo.coord.lon + "&units=imperial&appid=55b53b07c2e560aae2f3aeb2fb43fe2f";
+
     fetch(forecastUrl)
         .then(function (response) {
-                response.json().then(function (data) {
-                        console.log("data from Url: ",data.list.length);
-                        
-                        var dateTest = data.list[0].dt;
-                        var date = moment.unix(dateTest).format("MM DD YYYY");
-                        console.log("Time: ", date);
-                        var cityIcon = data.list[0].weather.icon;
-                        var cityTemp = data.list[0].main.temp;
-                        var cityWind = data.list[0].wind.speed;
-                        //var cityHumidity = data.list[0].
+            response.json().then(function (data) {
+                //console.log("data from Url: ", data.list.length);
 
-                        console.log("Temp: ", cityTemp);
-                        for (var i = 0; i < data.list.length; i+=5) {
-                           console.log("I: ", i)
-                        }
-                        // for (var i = 1; i < 6; i++) {
-                            // var forecastDay = document.querySelector("[data-day='" + i + "']");
-                            // var conditionEl = document.createElement("p");
-                            // conditionEl.classList = "list-group";
-                            // conditionEl.textContent = data.list[i].weather[0].icon;
+                // console.log("Temp: ", cityTemp);
+                //for (var i = 0; i < data.list.length; i += 8) {
+                    // console.log("I: ", i)
+                   // var conditionEl = document.createElement("p");
+                   // conditionEl.classList = "list-group";
+                    //conditionEl.textContent = data.list[i].weather.icon;
 
-                            // var cityWeather = "Temp: " + data.list[i].temp + "°F";
-                            // var tempEl = document.createElement("p");
-                            // tempEl.textContent = cityWeather;
-                            // conditionEl.appendChild(tempEl);
+                   // var dateTest = data.list[i].dt;
+                   // var date = moment.unix(dateTest).format("MM DD YYYY");
+                    //console.log("Time: ", date);
+                    //var cityIcon = data.list[i].weather.icon;
+                    //var cityTemp = data.list[i].main.temp;
+                    //var cityWind = data.list[i].wind.speed;
+                    //var cityHumidity = data.list[i].main.humidity;
 
-                            // var cityWeatherWind = "Wind: " + data.list[i].speed + " MPH";
-                            // var windEl = document.createElement("p");
-                            // windEl.textContent = cityWeatherWind;
-                            // conditionEl.appendChild(windEl);
+                   
+                //}
+                for (var i = 0; i < data.list.length; i+=8) {
 
-                            // var cityWeatherHumidity = "Humidity: " + data.list[i].humidity + "%";
-                            // var humidityEl = document.createElement("p");
-                            // humidityEl.textContent = cityWeatherHumidity;
-                            // conditionEl.appendChild(humidityEl);
+                var forecastDay = document.querySelector("[data-day='" + i + "']");
+                var conditionEl = document.createElement("p");
+                conditionEl.classList = "list-group";
 
-                            // forecastDay.appendChild(conditionEl);
-                        // });
-                });
-
+                var cityDate = data.list[i].dt;
+                var forecastDate = moment.unix(cityDate).format("MM/DD/YYYY");
+                var dateEl = document.createElement("h5");
+                dateEl.textContent = forecastDate;
+                conditionEl.appendChild(dateEl);                
                 
+                var cityIcon = document.createElement("img");
+                cityIcon.setAttribute("src", data.list[i].weather.icon);
+                cityIcon.textContent = 
+                // conditionEl.textContent = data.list[i].weather.icon;
+
+                // var cityWeather = "Temp: " + data.list[i].main.temp + "°F";
+                // var tempEl = document.createElement("p");
+                // tempEl.textContent = cityWeather;
+                // conditionEl.appendChild(tempEl);
+
+                // var cityWeatherWind = "Wind: " + data.list[i].wind.speed + " MPH";
+                // var windEl = document.createElement("p");
+                // windEl.textContent = cityWeatherWind;
+                // conditionEl.appendChild(windEl);
+
+                // var cityWeatherHumidity = "Humidity: " + data.list[i].main.humidity + "%";
+                // var humidityEl = document.createElement("p");
+                // humidityEl.textContent = cityWeatherHumidity;
+                // conditionEl.appendChild(humidityEl);
+
+                forecastDay.appendChild(conditionEl);
+                // });
+           }});
+
+
         });
 };
 cityFormEl.addEventListener("submit", formSubmitHandler);
