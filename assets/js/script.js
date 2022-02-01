@@ -36,10 +36,13 @@ var getCity = function (city) {
 var displayCity = function (cityInfo, searchTerm) {
     currentContainerEl.textContent = "";
     currentCity.textContent = cityInfo.name + currentDay;
-    
+
+    var test = "http://openweathermap.org/img/wn/" + cityInfo.weather[0].icon + ".png";
+    var imgEl = document.createElement("img");
+    imgEl.setAttribute("src", test);
     var conditionEl = document.createElement("span");
-    conditionEl.classList = "list-group";
-    conditionEl.textContent = "http://openweathermap.org/img/wn/" + cityInfo.weather[0].icon + ".png";
+    conditionEl.appendChild(imgEl);
+    
 
     var cityWeather = "Temp: " + cityInfo.main.temp + "°F";
     var tempEl = document.createElement("p");
