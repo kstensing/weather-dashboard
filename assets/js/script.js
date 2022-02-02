@@ -12,6 +12,13 @@ var formSubmitHandler = function (event) {
 
     if (city) {
         getCity(city);
+        var storedCityHistory = localStorage.getItem("history");
+        var cityHistory = JSON.parse(storedCityHistory);
+            if (cityHistory == null) {
+                cityHistory = [];
+            };
+        cityHistory.push(city);
+        localStorage.setItem("history", JSON.stringify(cityHistory));
         cityInputEl.value = "";
     } else {
         alert("Please enter a valid city");
@@ -26,12 +33,15 @@ var getCity = function (city) {
     fetch(requestUrl)
         .then(function (response) {
             response.json().then(function (data) {
-                console.log("first data: ", data);
                 displayCity(data, city);
                 displayForecast(data, city);
             });
         });
 };
+
+var saveCity = function(city) {
+
+}
 
 var displayCity = function (cityInfo, searchTerm) {
     currentContainerEl.textContent = "";
