@@ -7,6 +7,7 @@ var forecast = document.querySelector("#forecast");
 var currentDay = moment().format(' (MM/DD/YYYY)');
 
 
+
 var formSubmitHandler = function (event) {
     event.preventDefault();
     var city = cityInputEl.value.trim();
@@ -21,17 +22,22 @@ var formSubmitHandler = function (event) {
         cityHistory.push(city);
         localStorage.setItem("history", JSON.stringify(cityHistory));
 
+
         for (var i = 0; i < cityHistory.length; i++) {
+            var onPageButton = document.getElementById("new-button" + i);
+            if (onPageButton) {
+                onPageButton.remove();
+            }
             var cityHistoryLi = document.createElement("button");
             cityHistoryLi.classList = "btn btn-secondary btn-block";
             cityHistoryLi.textContent = cityHistory[i];
+            cityHistoryLi.id = "new-button" + i;
             document.getElementById("history-container").appendChild(cityHistoryLi);
-            
-            cityHistoryLi.addEventListener("click", function(event) {
+
+            cityHistoryLi.addEventListener("click", function (event) {
                 getCity(event.currentTarget.textContent);
             });
 
-            cityInputEl.value = "";
         };
     } else {
         alert("Please enter a valid city");
@@ -104,9 +110,9 @@ var displayCity = function (cityInfo, searchTerm) {
             });
         });
     currentContainerEl.appendChild(conditionEl);
+    var pageContent = document.getElementById("page-content");
+    pageContent.style.display = "block";
 };
-
-
 
 var displayForecast = function (cityInfo, city) {
 
@@ -118,9 +124,13 @@ var displayForecast = function (cityInfo, city) {
         .then(function (response) {
             response.json().then(function (data) {
                 for (var i = 0; i < data.list.length; i += 8) {
-
+                    var dayId = document.getElementById("day" + i)
+                    if (dayId) {
+                        dayId.remove();
+                    }
                     var forecastDay = document.querySelector("[data-day='" + i + "']");
                     var conditionEl = document.createElement("span");
+                    conditionEl.id = "day" + i;
 
                     var cityDate = data.list[i].dt;
                     var forecastDate = moment.unix(cityDate).format("MM/DD/YYYY");
@@ -154,5 +164,6 @@ var displayForecast = function (cityInfo, city) {
             });
         });
 };
+
 
 cityFormEl.addEventListener("submit", formSubmitHandler);
